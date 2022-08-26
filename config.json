@@ -1,0 +1,17 @@
+{
+  "main": "./contracts/Main.sol",
+  "deploy": "./build/contracts/Main.json",
+  "framework": "truffle",
+  "npmClient": "npm",
+  "compilers": {
+    "solc": "0.6.12",
+    "truffle": "v5.4.3",
+    "evmVersion": "berlin"
+  },
+  "linter": "solhint",
+  "editor": {
+    "fontFamily": "Hack",
+    "fontSize": "13px",
+    "ligatures": false
+  }
+}

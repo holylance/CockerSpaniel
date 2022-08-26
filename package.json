@@ -1,0 +1,16 @@
+{
+  "name": "lunapapatoken",
+  "version": "1.0.0",
+  "description": "",
+  "main": "truffle-config.js",
+  "scripts": {
+    "build": "truffle compile",
+    "deploy": "truffle deploy"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "truffle": "^5.4.6"
+  }
+}
