@@ -1,6 +1,6 @@
 {
   "name": "lunapapatoken",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "truffle-config.js",
   "scripts": {
@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@openzeppelin/truffle-upgrades": "^1.17.0",
     "truffle": "^5.4.6"
   }
 }
