@@ -1,6 +1,6 @@
 {
   "main": "./contracts/Main.sol",
-  "deploy": "./build/contracts/Main.json",
+  "deploy": "./build/contracts/LunaPapa.json",
   "framework": "truffle",
   "npmClient": "npm",
   "compilers": {
