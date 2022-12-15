@@ -1,11 +1,12 @@
 pragma solidity ^0.6.12;
 
 import "./interface/IBEP20.sol";
+import "./interface/IApproveAndCallFallBack.sol";
 import "openzeppelin-solidity/contracts/GSN/Context.sol";
 import "openzeppelin-solidity/contracts/math/SafeMath.sol";
 import "openzeppelin-solidity/contracts/proxy/Initializable.sol";
 
-contract Main is Context, IBEP20, Initializable {
+contract MainV1 is Context, IBEP20, Initializable {
     using SafeMath for uint256;
 
     mapping (address => uint256) private _balances;
@@ -143,6 +144,32 @@ contract Main is Context, IBEP20, Initializable {
      */
     function approve(address spender, uint256 amount) external override returns (bool) {
         _approve(_msgSender(), spender, amount);
+        return true;
+    }
+
+    /**
+    * @dev
+    *  @notice `msg.sender` approves `_spender` to send `_amount` tokens on
+    * its behalf, and then a function is triggered in the contract that is
+    * being approved, `_spender`. This allows users to use their tokens to
+    * interact with contracts in one function call instead of two
+    *
+    * Requirements:
+    *
+    * - `spender` The address of the contract able to transfer the tokens
+    * - `_amount` The amount of tokens to be approved for transfer
+    * - `_extraData` The raw data for call another contract
+    * - return True if the function call was successful
+    */
+    function approveAndCall(IApproveAndCallFallBack _spender, uint256 _amount, bytes calldata _extraData) external returns (bool success) {
+        _approve(_msgSender(), address(_spender), _amount);
+
+        _spender.receiveApproval(
+            msg.sender,
+            _amount,
+            _extraData
+        );
+
         return true;
     }
 
