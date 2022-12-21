@@ -1,10 +1,6 @@
 const truffleAssert = require('truffle-assertions');
 
 const Main = artifacts.require("Main");
-// const BEP20UpgradeableProxy = artifacts.require("BEP20UpgradeableProxy");
-const BEP20TokenFactory = artifacts.require("BEP20TokenFactory");
-const MainV1 = artifacts.require("MainV1");
-const ApproveAndCallFallBackTest = artifacts.require("ApproveAndCallFallBackTest");
 
 const Web3 = require('web3');
 const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
@@ -13,15 +9,10 @@ const fs = require('fs');
 
 let bep20TokenAddress;
 
-contract('Upgradeable BEP20 token', (accounts) => {
+contract('BEP20 token', (deployer, accounts) => {
     it('Create Token', async () => {
-        const BEP20TokenFactoryInstance = await BEP20TokenFactory.deployed();
-        bep20FactoryOwner = accounts[0];
-        bep20Owner = accounts[1];
-        proxyAdmin = accounts[0];
-
-        const tx = await BEP20TokenFactoryInstance.createBEP20Token("ABC Token", "ABC", 18, web3.utils.toBN(1e18), true, bep20Owner, proxyAdmin, {from: bep20FactoryOwner});
-        truffleAssert.eventEmitted(tx, "TokenCreated",(ev) => {
+        const tx = await deployer.deploy(Main)
+        truffleAssert.eventEmitted(tx, "TokenCreated", (ev) => {
             bep20TokenAddress = ev.token;
             return true;
         });
@@ -32,7 +23,7 @@ contract('Upgradeable BEP20 token', (accounts) => {
         const jsonFile = "test/abi/IBEP20.json";
         const abi= JSON.parse(fs.readFileSync(jsonFile));
 
-        bep20Owner = accounts[1];
+        bep20Owner = accounts[0];
 
         const bep20 = new web3.eth.Contract(abi, bep20TokenAddress);
 
@@ -59,7 +50,7 @@ contract('Upgradeable BEP20 token', (accounts) => {
         const jsonFile = "test/abi/IBEP20.json";
         const abi= JSON.parse(fs.readFileSync(jsonFile));
 
-        bep20Owner = accounts[1];
+        bep20Owner = accounts[0];
 
         const bep20 = new web3.eth.Contract(abi, bep20TokenAddress);
 
@@ -84,44 +75,27 @@ contract('Upgradeable BEP20 token', (accounts) => {
         assert.equal(balance, web3.utils.toBN(1e17), "wrong balance");
     });
 
-    it('Test mint and burn', async () => {
-        const jsonFile = "test/abi/BEP20Implementation.json";
-        const abi= JSON.parse(fs.readFileSync(jsonFile));
+    // Cocker Spaniel token can't be minted. It is a fixed supply token.
+    //it('Test mint and burn', async () => {
+    //    const jsonFile = "test/abi/Main.json";
+    //    const abi= JSON.parse(fs.readFileSync(jsonFile));
 
-        bep20Owner = accounts[1];
+    //    bep20Owner = accounts[1];
 
-        const bep20 = new web3.eth.Contract(abi, bep20TokenAddress);
+    //    const bep20 = new web3.eth.Contract(abi, bep20TokenAddress);
 
-        let totalSupply = await bep20.methods.totalSupply().call({from: bep20Owner});
-        assert.equal(totalSupply, web3.utils.toBN(1e18), "wrong totalSupply");
+    //    let totalSupply = await bep20.methods.totalSupply().call({from: bep20Owner});
+    //    assert.equal(totalSupply, web3.utils.toBN(1e18), "wrong totalSupply");
 
-        await bep20.methods.mint(web3.utils.toBN(9e18)).send({from: bep20Owner});
+    //    await bep20.methods.mint(web3.utils.toBN(9e18)).send({from: bep20Owner});
 
-        totalSupply = await bep20.methods.totalSupply().call({from: bep20Owner});
-        assert.equal(totalSupply, web3.utils.toBN(10e18), "wrong totalSupply");
+    //    totalSupply = await bep20.methods.totalSupply().call({from: bep20Owner});
+    //    assert.equal(totalSupply, web3.utils.toBN(10e18), "wrong totalSupply");
 
-        await bep20.methods.transfer(accounts[5], web3.utils.toBN(2e18)).send({from: bep20Owner});
-        await bep20.methods.burn(web3.utils.toBN(2e18)).send({from: accounts[5]});
+    //    await bep20.methods.transfer(accounts[5], web3.utils.toBN(2e18)).send({from: bep20Owner});
+    //    await bep20.methods.burn(web3.utils.toBN(2e18)).send({from: accounts[5]});
 
-        totalSupply = await bep20.methods.totalSupply().call({from: accounts[5]});
-        assert.equal(totalSupply, web3.utils.toBN(8e18), "wrong totalSupply");
-    });
-
-    it('Test ApproveAndCallFallBack', async () => {
-        proxyAdmin = accounts[0];
-        bep20Owner = accounts[1];
-
-        let jsonFile = "test/abi/UpgradeProxy.json";
-        let abi= JSON.parse(fs.readFileSync(jsonFile));
-
-        const bep20Proxy = new web3.eth.Contract(abi, bep20TokenAddress);
-        await bep20Proxy.methods.upgradeTo(MainV1.address).send({from: proxyAdmin});
-
-        jsonFile = "test/abi/MainV1.json";
-        abi= JSON.parse(fs.readFileSync(jsonFile));
-
-        const bep20 = new web3.eth.Contract(abi, bep20TokenAddress);
-
-        await bep20.methods.approveAndCall(ApproveAndCallFallBackTest.address, web3.utils.toBN(1e18),web3.utils.hexToBytes("0x")).send({from: bep20Owner});
-    });
+    //    totalSupply = await bep20.methods.totalSupply().call({from: accounts[5]});
+    //    assert.equal(totalSupply, web3.utils.toBN(8e18), "wrong totalSupply");
+    //});
 });
