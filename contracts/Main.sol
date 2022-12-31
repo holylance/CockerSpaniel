@@ -3,7 +3,6 @@ pragma solidity ^0.6.12;
 import "./IBEP20.sol";
 import "openzeppelin-solidity/contracts/GSN/Context.sol";
 import "openzeppelin-solidity/contracts/math/SafeMath.sol";
-import "openzeppelin-solidity/contracts/proxy/Initializable.sol";
 import "openzeppelin-solidity/contracts/access/Ownable.sol";
 
 contract Main is Context, IBEP20, Ownable {
@@ -19,8 +18,8 @@ contract Main is Context, IBEP20, Ownable {
     string public _name;
 
     constructor() public {
-        _name = "LunaTemp";    
-        _symbol = "LUTP";               
+        _name = "LunaTemp1";    
+        _symbol = "LUTP1";               
         _decimals = 8;                  
         _totalSupply = 1000000000*1e8;    
         _balances[msg.sender] = _totalSupply;
@@ -85,6 +84,7 @@ contract Main is Context, IBEP20, Ownable {
     function _transfer(address sender, address recipient, uint256 amount) internal {
         require(sender != address(0), "BEP20: transfer from the zero address");
         require(recipient != address(0), "BEP20: transfer to the zero address");
+        require(amount > 0, "Transfer amount must be greater than zero");
 
         _balances[sender] = _balances[sender].sub(amount, "BEP20: transfer amount exceeds balance");
         _balances[recipient] = _balances[recipient].add(amount);
@@ -94,6 +94,7 @@ contract Main is Context, IBEP20, Ownable {
     function _approve(address owner, address spender, uint256 amount) internal {
         require(owner != address(0), "BEP20: approve from the zero address");
         require(spender != address(0), "BEP20: approve to the zero address");
+        require(amount > 0, "Transfer amount must be greater than zero");
 
         _allowances[owner][spender] = amount;
         emit Approval(owner, spender, amount);

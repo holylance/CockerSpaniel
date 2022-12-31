@@ -4,7 +4,7 @@
   "description": "",
   "main": "truffle-config.js",
   "scripts": {
-    "testrpc": "ganache-cli --gasLimit 13000000 -e 100000 --networkId 666",
+    "testrpc": "ganache-cli --gasLimit 13000000 -e 100000 --networkId 777",
     "truffle": "truffle",
     "truffle:test": "truffle test",
     "build": "truffle compile",

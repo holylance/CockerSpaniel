@@ -25,4 +25,4 @@ npm run truffle:test
 ## Flatten
 
 ```shell script
-npm run 
+npm run flatten
