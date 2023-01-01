@@ -4,7 +4,7 @@
   "framework": "truffle",
   "npmClient": "npm",
   "compilers": {
-    "solc": "0.6.12",
+    "solc": "0.8.6",
     "truffle": "v5.4.3",
     "evmVersion": "berlin"
   },

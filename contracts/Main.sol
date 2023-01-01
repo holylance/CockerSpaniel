@@ -1,9 +1,11 @@
-pragma solidity ^0.6.12;
+// SPDX-License-Identifier: MIT
+
+pragma solidity ^0.8.0;
 
 import "./IBEP20.sol";
-import "openzeppelin-solidity/contracts/GSN/Context.sol";
-import "openzeppelin-solidity/contracts/math/SafeMath.sol";
-import "openzeppelin-solidity/contracts/access/Ownable.sol";
+import "./Context.sol";
+import "./SafeMath.sol";
+import "./Ownable.sol";
 
 contract Main is Context, IBEP20, Ownable {
     using SafeMath for uint256;
@@ -17,11 +19,11 @@ contract Main is Context, IBEP20, Ownable {
     string public _symbol;
     string public _name;
 
-    constructor() public {
-        _name = "LunaTemp1";    
-        _symbol = "LUTP1";               
-        _decimals = 8;                  
-        _totalSupply = 1000000000*1e8;    
+    constructor() {
+        _name = "LunaTemp2";    
+        _symbol = "LUTP2";               
+        _decimals = 16;                  
+        _totalSupply = 1000000000*1e16;    
         _balances[msg.sender] = _totalSupply;
 
         emit Transfer(address(0), msg.sender, _totalSupply);
