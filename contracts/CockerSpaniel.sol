@@ -7,7 +7,7 @@ import "./Context.sol";
 import "./SafeMath.sol";
 import "./Ownable.sol";
 
-contract Main is Context, IBEP20, Ownable {
+contract CockerSpaniel is Context, IBEP20, Ownable {
     using SafeMath for uint256;
 
     mapping (address => uint256) private _balances;
@@ -20,8 +20,8 @@ contract Main is Context, IBEP20, Ownable {
     string public _name;
 
     constructor() {
-        _name = "LunaTemp2";    
-        _symbol = "LUTP2";               
+        _name = "CockerSpaniel";    
+        _symbol = "CSL";               
         _decimals = 16;                  
         _totalSupply = 1000000000*1e16;    
         _balances[msg.sender] = _totalSupply;

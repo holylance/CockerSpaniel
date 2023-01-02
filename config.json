@@ -1,6 +1,6 @@
 {
-  "main": "./contracts/Main.sol",
-  "deploy": "./build/contracts/Main.json",
+  "main": "./contracts/CockerSpaniel.sol",
+  "deploy": "./build/contracts/CockerSpaniel.json",
   "framework": "truffle",
   "npmClient": "npm",
   "compilers": {
