@@ -1,5 +1,5 @@
-const Main = artifacts.require('Main')
+const Main = artifacts.require('CockerSpaniel')
 
 module.exports = async function (deployer, network, accounts) {
-  await deployer.deploy(Main)
+  await deployer.deploy(CockerSpaniel)
 }
